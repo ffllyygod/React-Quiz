@@ -1,4 +1,6 @@
-const Questions = ({ question, dispatch, answer }) => {
+import Timer from "./Timer";
+
+const Questions = ({ question, dispatch, answer, index,secondsRemaining }) => {
   const hasAnswered = answer !== null;
   return (
     <div>
@@ -21,14 +23,21 @@ const Questions = ({ question, dispatch, answer }) => {
           </button>
         ))}
       </div>
-      {hasAnswered && (
-        <button
-          className="btn btn-ui"
-          onClick={() => dispatch({ type: "nextQuestion" })}
-        >
-          Next
-        </button>
-      )}
+      <footer>
+        <Timer dispatch={dispatch} secondsRemaining={secondsRemaining}/>
+        {hasAnswered && (
+          <button
+            className="btn btn-ui"
+            onClick={
+              index < 14
+                ? () => dispatch({ type: "nextQuestion" })
+                : () => dispatch({ type: "finish" })
+            }
+          >
+            {index < 14 ? "Next" : "Finish"}
+          </button>
+        )}
+      </footer>
     </div>
   );
 };
